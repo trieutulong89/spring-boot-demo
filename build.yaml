@@ -1,16 +1,19 @@
 version: 0.2
 phases:
+  install:
+    runtime-versions:
+      java: corretto8
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay&
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   pre_build:
     commands:
       - echo "Entered the pre-build phase"
   build:
     commands:
       - echo "Entered build phase"
-      - mvn clean prepare-package war:exploded
+      - ./mvnw clean package -DskipTests=true
+      - docker build -t oreo/oreo-gateway:v1 .
   post_build:
     commands:
-      - echo "Entered the post-build phase"
-      - mv target/deploy ./
-artifacts:
-  files:
-    - deploy/**/*
+      - echo "post notifications"
