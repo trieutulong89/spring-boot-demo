@@ -19,7 +19,7 @@ phases:
       - echo "Entered build phase"
       - DATE=$(date +%Y%m%d%H%M)
       - ./mvnw clean package -DskipTests=true
-      - docker build -t oreo/oreo-gateway:v1 .
+      - docker build -t $REPOSITORY_URI:sit-$DATE .
       - docker tag $REPOSITORY_URI:sit-$DATE $REPOSITORY_URI:$RELEASE_TAG
       - docker push $REPOSITORY_URI:sit-$DATE
   post_build:
