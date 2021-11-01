@@ -11,22 +11,21 @@ phases:
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   pre_build:
     commands:
-      - echo "Entered the pre-build phase"
-      - echo "Login to AWS ECR"
+      - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - SERVICE_NAME=common
-      - REPOSITORY_URI=271609209442.dkr.ecr.us-east-2.amazonaws.com/oreo/$SERVICE_NAME
+      - REPOSITORY_URI=271609209442.dkr.ecr.us-east-2.amazonaws.com/oreo
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
-      - echo "Entered build phase"
-      - RELEASE_TAG=v1
-      - DATE=$(date +%Y%m%d%H%M)
-      - ./mvnw clean package -DskipTests=true
-      - docker build -t $REPOSITORY_URI:sit-$DATE .
-      - docker tag $REPOSITORY_URI:sit-$DATE $REPOSITORY_URI:$RELEASE_TAG
-      - docker push $REPOSITORY_URI:sit-$DATE
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo "post notifications"
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
