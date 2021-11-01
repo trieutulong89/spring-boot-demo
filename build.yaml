@@ -11,8 +11,8 @@ phases:
       - echo "Entered the pre-build phase"
       - echo "Login to AWS ECR"
       - aws --version
-      - SERVICE_NAME=oreo-common
-      - REPOSITORY_URI=012345678910.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME
+      - SERVICE_NAME=common
+      - REPOSITORY_URI=271609209442.dkr.ecr.us-east-2.amazonaws.com/oreo/$SERVICE_NAME
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
     commands:
