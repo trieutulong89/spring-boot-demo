@@ -22,11 +22,12 @@ phases:
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
+      - DATE=$(date +%Y%m%d%H%M)    
       - echo Build started on `date`
       - ./mvnw package -Dmaven.test.skip
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:SIT-$DATE
   post_build:
     commands: 
       - echo Build completed on ... 
