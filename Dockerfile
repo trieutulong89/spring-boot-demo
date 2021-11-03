@@ -8,5 +8,5 @@ RUN addgroup -S oreo -g 1000 \
 USER oreo
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /opt/oreo/
-EXPOSE 8081
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/opt/ore/*.jar"]
