@@ -4,7 +4,7 @@ pipeline {
     stage('Maven Install') {
       agent any     
   steps {
-       sh 'mvn clean install'
+       sh './mvnw package -Dmaven.test.skip'
        }
      }
      stage('Docker Build') {
