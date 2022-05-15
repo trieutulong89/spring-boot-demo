@@ -19,6 +19,6 @@ node {
 def buildImage () {
     printf 'Doing build image!'
     stage('Build image') {
-        print 'Hello World'
+        ./mvnw package -Dmaven.test.skip
     }
 }
