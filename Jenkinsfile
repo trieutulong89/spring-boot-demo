@@ -35,5 +35,7 @@ timestamps {
         asiColor('xterm') {
             java_maven()
         }
+    } catch (err) {
+        print err
     }
 }
