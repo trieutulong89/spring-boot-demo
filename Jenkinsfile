@@ -32,7 +32,7 @@ timestamps {
     }
 
     try {
-        asiColor('xterm') {
+        ansiColor('xterm') {
             java_maven()
         }
     } catch (err) {
