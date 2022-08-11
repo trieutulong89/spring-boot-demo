@@ -28,14 +28,15 @@
 timestamps {
     node() {
         tool name: 'maven'
-        def myRepo = checkout scm
-    }
-
-    try {
-        ansiColor('xterm') {
-            java_maven()
+        stage('Checkout SCM'){
+            def myRepo = checkout scm
         }
-    } catch (err) {
-        print err
+        try {
+            ansiColor('xterm') {
+                java_maven()
+            }
+        } catch (err) {
+            print err
+        }                   
     }
 }
