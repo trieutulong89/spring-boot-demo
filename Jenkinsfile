@@ -23,7 +23,7 @@
 //     }
 // }
 
-@Library('jenkins-lib@main') _
+@Library('jenkins_lib@main') _
 
 timestamps {
     node() {
